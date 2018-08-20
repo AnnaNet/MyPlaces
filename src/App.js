@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import './responsive.css'
-import ListPlaces from './ListPlaces'
+import Search from './Search'
 
 class App extends Component {
   state = {
@@ -37,16 +37,16 @@ class App extends Component {
           zoom: 14,
         });
         this.state.markers.map((item) => {
-          this.marker = new window.google.maps.Marker({
+          const marker = new window.google.maps.Marker({
             position: item.position,
             map: this.map,
             title: item.title
           })
-          this.marker.addListener('click', () => {
+          marker.addListener('click', () => {
             this.info = new window.google.maps.InfoWindow({
               content: item.title,
             });
-            this.info.open(this.map, this.marker);
+            this.info.open(this.map, marker);
           });
 
         });
@@ -61,6 +61,10 @@ class App extends Component {
     this.bindMap();
   }
 
+  newList = (res) => {
+    console.log (res);
+  }
+
   render() {
     return (
       <div className="App">
@@ -68,7 +72,7 @@ class App extends Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <ListPlaces markers={this.state.markers}/>
+          <Search markers={this.state.markers} newList={this.newList}/>
           <div className="map" id='map'/>
         </div>
       </div>
