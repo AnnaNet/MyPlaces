@@ -3,12 +3,19 @@ import './App.css';
 
 class App extends Component {
   state = {
-    markers: [],
+    markers: [
+      {position: {lat: 59.928571, lng: 30.238909},
+       title:'Opochinenskiy sadik'},
+      {position: {lat: 59.9276493, lng: 30.2458688},
+       title: 'Khram'},
+      {position: {lat: 59.9300266, lng: 30.2486267},
+       title: 'Museum'},
+      {position: {lat: 59.9282254, lng: 30.2358644},
+       title: 'Mounument torpedo boats'},
+      {position: {lat: 59.9319183, lng: 30.2341878},
+       title: 'Lenexpo'},
+    ],
   }
-
- // constructor(props) {
- //   super(props);
- // }
 
   bindMap = () => {
 
@@ -25,12 +32,14 @@ class App extends Component {
     }).then(() => {
         this.map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: 59.928395, lng: 30.239069},
-          zoom: 15,
+          zoom: 14,
         });
-        this.marker = new window.google.maps.Marker({
-          position: {lat: 59.928571, lng: 30.238909},
-          map: this.map,
-          title:'Opochinenskiy sadik',
+        this.state.markers.map((item) => {
+          this.marker = new window.google.maps.Marker({
+            position: item.position,
+            map: this.map,
+            title: item.title
+          })
         });
 
     }).catch(error => {
