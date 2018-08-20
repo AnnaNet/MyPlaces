@@ -19,7 +19,7 @@ class App extends Component {
     ],
   }
 
-  bindMap = () => {
+  bindMap = (markers) => {
 
     new Promise((resolve, reject) => {
       const getKey = document.createElement('script');
@@ -36,7 +36,7 @@ class App extends Component {
           center: {lat: 59.928395, lng: 30.239069},
           zoom: 14,
         });
-        this.state.markers.map((item) => {
+        markers.map((item) => {
           const marker = new window.google.maps.Marker({
             position: item.position,
             map: this.map,
@@ -58,11 +58,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.bindMap();
-  }
-
-  newList = (res) => {
-    console.log (res);
+    this.bindMap(this.state.markers);
   }
 
   render() {
@@ -72,7 +68,7 @@ class App extends Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.newList}/>
+          <Search markers={this.state.markers} newList={this.bindMap}/>
           <div className="map" id='map'/>
         </div>
       </div>
