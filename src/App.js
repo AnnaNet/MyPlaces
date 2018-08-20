@@ -6,9 +6,9 @@ class App extends Component {
     markers: [],
   }
 
-  constructor(props) {
-    super(props);
-  }
+ // constructor(props) {
+ //   super(props);
+ // }
 
   bindMap = () => {
 
@@ -27,10 +27,16 @@ class App extends Component {
           center: {lat: 59.928395, lng: 30.239069},
           zoom: 15,
         });
+        this.marker = new window.google.maps.Marker({
+          position: {lat: 59.928571, lng: 30.238909},
+          map: this.map,
+          title:'Opochinenskiy sadik',
+        });
 
     }).catch(error => {
       console.error(`Can't load map: ${error}`);
     });
+
   }
 
   componentDidMount() {
