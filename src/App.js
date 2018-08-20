@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import ListPlaces from './ListPlaces'
 
 class App extends Component {
   state = {
@@ -8,7 +9,7 @@ class App extends Component {
        title:'Opochinenskiy sadik'},
       {position: {lat: 59.9276493, lng: 30.2458688},
        title: 'Khram'},
-      {position: {lat: 59.9300266, lng: 30.2486267},
+      {position: {lat: 59.9321414, lng: 30.245521},
        title: 'Museum'},
       {position: {lat: 59.9282254, lng: 30.2358644},
        title: 'Mounument torpedo boats'},
@@ -23,7 +24,7 @@ class App extends Component {
       const getKey = document.createElement('script');
       getKey.type = 'text/javascript';
       getKey.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyApp0dmkFOzhnyURzMZy_KeE27h9_6e5Uw";
-      getKey.defer = true;
+      getKey.async = true;
       getKey.onload = resolve;
       getKey.onerror = reject;
       document.head.appendChild(getKey);
@@ -40,6 +41,13 @@ class App extends Component {
             map: this.map,
             title: item.title
           })
+          this.marker.addListener('click', () => {
+            this.info = new window.google.maps.InfoWindow({
+              content: item.title,
+            });
+            this.info.open(this.map, this.marker);
+          });
+
         });
 
     }).catch(error => {
@@ -58,6 +66,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">WELCOME to MY PLACES!</h1>
         </header>
+        <ListPlaces markers={this.state.markers}/>
         <div className="map" id='map'/>
       </div>
     );
