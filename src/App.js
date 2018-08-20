@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './responsive.css'
 import ListPlaces from './ListPlaces'
 
 class App extends Component {
@@ -63,11 +64,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">WELCOME to MY PLACES!</h1>
-        </header>
-        <ListPlaces markers={this.state.markers}/>
-        <div className="map" id='map'/>
+        <div className='container'>
+          <header className="App-header box">
+            <h1 className="App-title">WELCOME to MY PLACES!</h1>
+          </header>
+          <ListPlaces markers={this.state.markers}/>
+          <div className="map" id='map'/>
+        </div>
       </div>
     );
   }
