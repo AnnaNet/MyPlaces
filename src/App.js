@@ -78,7 +78,12 @@ class App extends React.Component {
   }
 
   animaMarker = (value) => {
-    console.log ('marker of ' + value);
+    this.state.seenMarkers.map((item) => {
+      if (value === item.title) {
+        item.setAnimation(window.google.maps.Animation.BOUNCE);
+        setTimeout(() => {item.setAnimation(null);}, 2000);
+      };
+    });
   }
 
   newList = (list) => {
@@ -94,7 +99,6 @@ class App extends React.Component {
         }
       })
     })
-
 //marker.setMap(null);marker.setMap(map);
   }
 
