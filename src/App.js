@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import './responsive.css'
-import Search from './Search'
+import './responsive.css';
+import Search from './Search';
 
-class App extends Component {
+
+class App extends React.Component {
   state = {
+    seenMarkers: [],
     markers: [
       {position: {lat: 59.928571, lng: 30.238909},
        title:'Opochinenskiy sadik'},
@@ -21,7 +23,14 @@ class App extends Component {
     ],
   }
 
+  setMarkers = (exMarks) => {
+    this.setState ({
+      seenMarkers: exMarks,
+    });
+  }
+
   bindMap = (markers) => {
+    let exMarks = [];
 
     new Promise((resolve, reject) => {
         const getKey = document.createElement('script');
@@ -37,12 +46,19 @@ class App extends Component {
           center: {lat: 59.928395, lng: 30.239069},
           zoom: 14,
         });
+
+        this.exMarks = [];
+
         markers.map((item) => {
           const marker = new window.google.maps.Marker({
             position: item.position,
             map: this.map,
-            title: item.title
+            title: item.title,
+            animation: window.google.maps.Animation.DROP,
           })
+
+          this.exMarks = exMarks.push(marker);
+
           marker.addListener('click', () => {
             this.info = new window.google.maps.InfoWindow({
               content: item.title,
@@ -51,19 +67,35 @@ class App extends Component {
           });
 
         });
-
+      this.setMarkers (exMarks);
     }).catch(error => {
       console.error(`Can't load map: ${error}`);
     });
-
   }
 
   componentDidMount() {
     this.bindMap(this.state.markers);
   }
 
-  animaMarker = () => {
-    console.log ('marker');
+  animaMarker = (value) => {
+    console.log ('marker of ' + value);
+  }
+
+  newList = (list) => {
+    this.state.seenMarkers.map((item) => {
+      item.setMap(null);
+    });
+
+    list.map((newItem) => {
+      this.state.seenMarkers.map((item) => {
+        if (newItem.title === item.title) {
+          item.setMap(this.map);
+          console.log ('show ' + item.title);
+        }
+      })
+    })
+
+//marker.setMap(null);marker.setMap(map);
   }
 
   render() {
@@ -73,7 +105,7 @@ class App extends Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.bindMap} animaMarker={this.animaMarker}/>
+          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}/>
           <div className="map" id='map'/>
         </div>
       </div>

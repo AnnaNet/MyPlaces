@@ -32,8 +32,8 @@ class Search extends Component {
         </div>
         <ul>
           {results.map((item) => (
-            <li onClick={this.props.animaMarker} className='list' id='list' key={item.title}>
-              <div>{item.title}</div>
+            <li onClick={(event) => {this.props.animaMarker(event.target.innerHTML)}} className='list' id='list' key={item.title}>
+              {item.title}
             </li>
           ))}
         </ul>
