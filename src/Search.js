@@ -32,7 +32,7 @@ class Search extends Component {
         </div>
         <ul>
           {results.map((item) => (
-            <li className='list' key={item.title}>
+            <li onClick={this.props.animaMarker} className='list' id='list' key={item.title}>
               <div>{item.title}</div>
             </li>
           ))}

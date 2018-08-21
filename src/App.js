@@ -10,26 +10,27 @@ class App extends Component {
        title:'Opochinenskiy sadik'},
       {position: {lat: 59.9276493, lng: 30.2458688},
        title: 'Khram'},
-      {position: {lat: 59.9321414, lng: 30.245521},
+      {position: {lat: 59.9324, lng: 30.251},
        title: 'Museum'},
-      {position: {lat: 59.9282254, lng: 30.2358644},
+      {position: {lat: 59.932897, lng: 30.2329588},
        title: 'Mounument torpedo boats'},
       {position: {lat: 59.9319183, lng: 30.2341878},
        title: 'Lenexpo'},
+      {position: {lat: 59.9312105, lng: 30.253438},
+       title: 'Hospital'},
     ],
   }
 
   bindMap = (markers) => {
 
     new Promise((resolve, reject) => {
-      const getKey = document.createElement('script');
-      getKey.type = 'text/javascript';
-      getKey.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyApp0dmkFOzhnyURzMZy_KeE27h9_6e5Uw";
-      getKey.async = true;
-      getKey.onload = resolve;
-      getKey.onerror = reject;
-      document.head.appendChild(getKey);
-      console.log (getKey);
+        const getKey = document.createElement('script');
+        getKey.type = 'text/javascript';
+        getKey.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyApp0dmkFOzhnyURzMZy_KeE27h9_6e5Uw";
+        getKey.async = true;
+        getKey.onload = resolve;
+        getKey.onerror = reject;
+        document.head.appendChild(getKey);
 
     }).then(() => {
         this.map = new window.google.maps.Map(document.getElementById('map'), {
@@ -61,6 +62,10 @@ class App extends Component {
     this.bindMap(this.state.markers);
   }
 
+  animaMarker = () => {
+    console.log ('marker');
+  }
+
   render() {
     return (
       <div className="App">
@@ -68,7 +73,7 @@ class App extends Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.bindMap}/>
+          <Search markers={this.state.markers} newList={this.bindMap} animaMarker={this.animaMarker}/>
           <div className="map" id='map'/>
         </div>
       </div>
