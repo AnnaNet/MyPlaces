@@ -15,18 +15,28 @@ body {
 }
 
 
-/*TODO: settings for screen less 350px at width*/
-@media screen and (max-width: 1200px) {
-}
-
-
-/*TODO: settings for screen more 349px at width*/
+/*TODO: settings for screen less 550px at width*/
 @media screen and (max-width: 549px) {
+  .list {
+   column-count: 2;
+  }
 }
 
 
 /*TODO: settings for screen more 549px at width*/
 @media screen and (min-width: 550px) {
+  .list-places {
+    width: 30%;
+  }
+  .map {
+    width: 70%;
+  }
+
+}
+
+
+/*TODO: settings for screen more 849px at width*/
+@media screen and (min-width: 850px) {
   .list-places {
     width: 20%;
   }

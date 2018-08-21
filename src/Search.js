@@ -26,13 +26,13 @@ class Search extends Component {
     {this.props.newList(results)}
     return (
       <div className='list-places box'>
-        <div>
+        <div className='search'>
           Search
-          <SearchInput onChange={this.search}/>
+          <SearchInput className='input' onChange={this.search}/>
         </div>
-        <ul>
+        <ul className='list'>
           {results.map((item) => (
-            <li onClick={(event) => {this.props.animaMarker(event.target.innerHTML)}} className='list' id='list' key={item.title}>
+            <li onClick={(event) => {this.props.animaMarker(event.target.innerHTML)}} className='listElement' id='list' key={item.title}>
               {item.title}
             </li>
           ))}
