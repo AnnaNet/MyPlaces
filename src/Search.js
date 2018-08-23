@@ -7,11 +7,9 @@ class Search extends Component {
 
   constructor (props) {
     super(props)
-
     this.state = {
-      filter: ''
+      filter: '',
     }
-
     this.search = this.search.bind(this);
   }
 
@@ -22,12 +20,13 @@ class Search extends Component {
   }
 
   render() {
-    const results = this.props.markers.filter(createFilter(this.state.filter, key))
-    {this.props.newList(results)}
+    const results = this.props.markers.filter(createFilter(this.state.filter, key));
+    this.props.newList(results);
+
     return (
       <div className='list-places box'>
         <div className='search'>
-          Search
+          Enter place:
           <SearchInput className='input' onChange={this.search}/>
         </div>
         <ul className='list'>

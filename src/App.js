@@ -3,23 +3,35 @@ import './App.css';
 import './responsive.css';
 import Search from './Search';
 
+let foursquare = require('react-foursquare') ({
+  clientID: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
+  clientSecret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
+});
 
 class App extends React.Component {
+
   state = {
     seenMarkers: [],
+
+    paramsFS: [],
+    items: [],
+
     markers: [
-      {position: {lat: 59.928571, lng: 30.238909},
-       title:'Opochinenskiy sadik'},
       {position: {lat: 59.9276493, lng: 30.2458688},
-       title: 'Khram'},
-      {position: {lat: 59.9324, lng: 30.251},
-       title: 'Museum'},
+       title: 'Khram Ikony Bozhiyey Materi Miluyushchaya'},
+      {position: {lat: 59.9385853, lng: 30.3322549},
+       title: 'Russian Museum'},
       {position: {lat: 59.932897, lng: 30.2329588},
        title: 'Mounument torpedo boats'},
-      {position: {lat: 59.9319183, lng: 30.2341878},
-       title: 'Lenexpo'},
-      {position: {lat: 59.9312105, lng: 30.253438},
-       title: 'Hospital'},
+      {position: {lat: 59.9256377, lng: 30.2959024},
+       title: 'Mariinsky Theatre'},
+      {position: {lat: 59.8692564, lng: 30.3419138},
+       title: 'Peterburgskiy Sportivno-Kontsertnyy Kompleks'},
+      {position: {lat: 59.8029103, lng: 30.267859},
+       title: 'Pulkovo Airport'},
+      {position: {lat: 59.9500063, lng: 30.316666},
+       title: 'Peter and Paul Fortress'},
+
     ],
   }
 
@@ -27,6 +39,33 @@ class App extends React.Component {
     this.setState ({
       seenMarkers: exMarks,
     });
+  }
+
+  params = (markers) => {
+    markers.map ((item) => {
+      this.setState ((state) => {
+        paramsFS: this.state.paramsFS.push({
+          'title': item.title,
+          'll': `${item.position.lat},${item.position.lng}`,
+          'query': 'metro',
+          'limit': 3,}
+        )
+      })
+    })
+  }
+
+    FS = (value, paramsFS) => {
+      paramsFS.map((item) => {
+        if (item.title === value) {
+        foursquare.venues.getVenues(item)
+          .then ((res) => {
+            console.log (res);
+            this.setState({
+              items: res.response.venues
+            });
+        })
+        }
+      })
   }
 
   bindMap = (markers) => {
@@ -43,8 +82,8 @@ class App extends React.Component {
 
     }).then(() => {
         this.map = new window.google.maps.Map(document.getElementById('map'), {
-          center: {lat: 59.928395, lng: 30.239069},
-          zoom: 14,
+          center: {lat: 59.8809792, lng: 30.3191973},
+          zoom: 11,
         });
 
         this.exMarks = [];
@@ -75,6 +114,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.bindMap(this.state.markers);
+    this.params(this.state.markers);
   }
 
   animaMarker = (value) => {
@@ -82,9 +122,22 @@ class App extends React.Component {
       if (value === item.title) {
         item.setAnimation(window.google.maps.Animation.BOUNCE);
         setTimeout(() => {item.setAnimation(null);}, 2000);
+        this.FS(value, this.state.paramsFS);
       };
     });
   }
+
+/*  isEmpty = (res) => {*/
+    //if (res === false) {
+      //this.setState ({
+        //empty: 'No results of your search, try again!'
+      //});
+    //} else {
+        //this.setState ({
+          //empty: ''
+        //});
+      //};
+  /*}*/
 
   newList = (list) => {
     this.state.seenMarkers.map((item) => {
@@ -95,22 +148,24 @@ class App extends React.Component {
       this.state.seenMarkers.map((item) => {
         if (newItem.title === item.title) {
           item.setMap(this.map);
-          console.log ('show ' + item.title);
         }
       })
     })
-//marker.setMap(null);marker.setMap(map);
   }
 
   render() {
     return (
       <div className="App">
         <div className='container'>
+
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
           <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}/>
           <div className="map" id='map'/>
+          {this.state.items.map((item) => {
+            return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
+          })}
         </div>
       </div>
     );
