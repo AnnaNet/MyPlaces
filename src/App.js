@@ -73,7 +73,7 @@ class App extends React.Component {
         if (item.title === value) {
         foursquare.venues.getVenues(item)
           .then ((res) => {
-            console.log (res);
+            //console.log (res);
             this.setState({
               items: res.response.venues
             });
@@ -84,7 +84,7 @@ class App extends React.Component {
         if (item.title === value) {
         foursquare.venues.getVenues(item)
           .then ((res) => {
-            console.log (res);
+            //console.log (res);
             this.setState({
               items2: res.response.venues
             });
@@ -134,6 +134,7 @@ class App extends React.Component {
               content: item.title,
             });
             this.info.open(this.map, marker);
+            this.FS(item.title, this.state.paramsFS, this.state.paramsFS2);
           });
 
         });

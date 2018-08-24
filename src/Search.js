@@ -38,9 +38,7 @@ class Search extends Component {
   }
 
   render() {
-   // const results = this.props.markers.filter(createFilter(this.state.filter, key));
-  //  this.props.newList(results);
-    //this.props.isEmpty(results);
+
     return (
       <div className='list-places box'>
         <div className='search'>
