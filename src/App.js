@@ -13,6 +13,8 @@ class App extends React.Component {
   state = {
     seenMarkers: [],
 
+    empty: '',
+
     paramsFS: [],
     paramsFS2: [],
     items: [],
@@ -148,17 +150,17 @@ class App extends React.Component {
     });
   }
 
-/*  isEmpty = (res) => {*/
-    //if (res === false) {
-      //this.setState ({
-        //empty: 'No results of your search, try again!'
-      //});
-    //} else {
-        //this.setState ({
-          //empty: ''
-        //});
-      //};
-  /*}*/
+  isEmpty = (res) => {
+    if (res === false) {
+      this.setState ({
+        empty: 'No results of your search, try again!'
+      });
+    } else {
+        this.setState ({
+          empty: ''
+        });
+      };
+  }
 
   newList = (list) => {
     this.state.seenMarkers.map((item) => {
@@ -182,7 +184,7 @@ class App extends React.Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}/>
+          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker} isEmpty={this.isEmpty}/>
           <div className="map" id='map'/>
           {this.state.items.map((item) => {
             return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
