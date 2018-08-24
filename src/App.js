@@ -14,7 +14,9 @@ class App extends React.Component {
     seenMarkers: [],
 
     paramsFS: [],
+    paramsFS2: [],
     items: [],
+    items2: [],
 
     markers: [
       {position: {lat: 59.9276493, lng: 30.2458688},
@@ -47,14 +49,21 @@ class App extends React.Component {
         paramsFS: this.state.paramsFS.push({
           'title': item.title,
           'll': `${item.position.lat},${item.position.lng}`,
+          'query': 'cafe',
+          'limit': 3,
+        });
+
+        paramsFS2: this.state.paramsFS2.push({
+          'title': item.title,
+          'll': `${item.position.lat},${item.position.lng}`,
           'query': 'metro',
-          'limit': 3,}
-        )
+          'limit': 2,
+        });
       })
     })
   }
 
-    FS = (value, paramsFS) => {
+    FS = (value, paramsFS, paramsFS2) => {
       paramsFS.map((item) => {
         if (item.title === value) {
         foursquare.venues.getVenues(item)
@@ -65,7 +74,19 @@ class App extends React.Component {
             });
         })
         }
+      },
+      paramsFS2.map((item) => {
+        if (item.title === value) {
+        foursquare.venues.getVenues(item)
+          .then ((res) => {
+            console.log (res);
+            this.setState({
+              items2: res.response.venues
+            });
+        })
+        }
       })
+)
   }
 
   bindMap = (markers) => {
@@ -122,7 +143,7 @@ class App extends React.Component {
       if (value === item.title) {
         item.setAnimation(window.google.maps.Animation.BOUNCE);
         setTimeout(() => {item.setAnimation(null);}, 2000);
-        this.FS(value, this.state.paramsFS);
+        this.FS(value, this.state.paramsFS, this.state.paramsFS2);
       };
     });
   }
@@ -166,6 +187,10 @@ class App extends React.Component {
           {this.state.items.map((item) => {
             return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
           })}
+          {this.state.items2.map((item) => {
+            return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
+          })}
+
         </div>
       </div>
     );
