@@ -23,9 +23,15 @@ class App extends React.Component {
     metro: '',
 
     markers: [
+      {position: {lat: 59.9339097, lng: 30.3064605},
+       title: 'St. Isaac`s Cathedral'},
+      {position: {lat: 59.9315767, lng: 30.4416422},
+       title: 'Ladozhskiy vokzal'},
+      {position: {lat: 59.9554007, lng: 30.337832},
+       title: 'Cruiser Aurora'},
+      {position: {lat: 59.9017147, lng: 30.2829393},
+       title: 'Narva Gate'},
       {position: {lat: 59.9276493, lng: 30.2458688},
-       title: 'Khram Ikony Bozhiyey Materi Miluyushchaya'},
-      {position: {lat: 59.9385853, lng: 30.3322549},
        title: 'Russian Museum'},
       {position: {lat: 59.932897, lng: 30.2329588},
        title: 'Mounument torpedo boats'},
