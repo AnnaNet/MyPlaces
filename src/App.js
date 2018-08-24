@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import './responsive.css';
 import Search from './Search';
+import SearchInput, {createFilter} from 'react-search-input'
 
 let foursquare = require('react-foursquare') ({
   clientID: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
@@ -11,9 +12,14 @@ let foursquare = require('react-foursquare') ({
 let indxCafe = 21;
 let indxMetro = 26;
 
+const key = 'title';
+
 class App extends React.Component {
 
   state = {
+    results: [],
+    filter: '',
+
     seenMarkers: [],
 
     empty: '',
@@ -34,7 +40,7 @@ class App extends React.Component {
        title: 'Cruiser Aurora'},
       {position: {lat: 59.9017147, lng: 30.2829393},
        title: 'Narva Gate'},
-      {position: {lat: 59.9276493, lng: 30.2458688},
+      {position: {lat: 59.9385961, lng: 30.3322331},
        title: 'Russian Museum'},
       {position: {lat: 59.932897, lng: 30.2329588},
        title: 'Mounument torpedo boats'},
@@ -84,7 +90,7 @@ class App extends React.Component {
             this.setState({
               items: res.response.venues
             });
-        })
+          }) .catch (console.log ('ErrorFS'))
         }
       },
       paramsFS2.map((item) => {
@@ -94,7 +100,7 @@ class App extends React.Component {
             this.setState({
               items2: res.response.venues
             });
-        })
+        }) .catch (console.log ('ErrorFS2'))
         }
       }),
       this.setState ({
@@ -151,18 +157,34 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.setState ({
+      results: this.state.markers,
+    });
     this.bindMap(this.state.markers);
     this.params(this.state.markers);
+
+  }
+
+  search = (newFilter) => {
+    this.setState({
+      filter: newFilter
+    });
+    this.setState({
+      results: this.state.markers.filter(createFilter(this.state.filter, key))
+    })
+    this.newList(this.state.results);
+    this.isEmpty(this.state.results);
+    this.clearFS();
   }
 
   animaMarker = (value) => {
     this.state.seenMarkers.map((item) => {
       if (value === item.title) {
-
         item.setAnimation(window.google.maps.Animation.BOUNCE);
         setTimeout(() => {item.setAnimation(null);}, 2500);
 
         this.FS(value, this.state.paramsFS, this.state.paramsFS2);
+
       };
     });
   }
@@ -179,7 +201,7 @@ class App extends React.Component {
         this.setState ({
           empty: ''
         });
-      };
+    };
   }
 
   newList = (list) => {
@@ -206,6 +228,7 @@ class App extends React.Component {
   }
 
   render() {
+    this.search = this.search.bind(this);
     return (
       <div className="App">
         <div className='container'>
@@ -214,7 +237,8 @@ class App extends React.Component {
             <h1 className="App-title" tabIndex='1'>WELCOME to MY PLACES!</h1>
           </header>
           <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}
-            isEmpty={this.isEmpty} empty={this.state.empty} clearFS={this.clearFS}/>
+            isEmpty={this.isEmpty} empty={this.state.empty} clearFS={this.clearFS} results={this.state.results}
+            search={this.search}/>
           <div className="map" id='map'/>
 
           <div className='box info' role='informationOfNearestCafes' tabIndex='20'>
