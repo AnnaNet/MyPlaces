@@ -3,6 +3,7 @@ import SearchInput, {createFilter} from 'react-search-input'
 
 const key = 'title';
 const error = 'ERROR';
+let indx = 6;
 
 class Search extends Component {
 
@@ -41,17 +42,19 @@ class Search extends Component {
 
     return (
       <div className='list-places box'>
-        <div className='search'>
+        <div className='search' tabIndex='3'>
           Enter place:
-          <SearchInput className='input' onChange={this.search}/>
+          <SearchInput className='input' tabIndex='4' role='searchFild' onChange={this.search}/>
         </div>
-        <ul className='list'>
+        <ul className='list' tabIndex='5' role='ListPlaces'>
           {this.state.results.map((item) => (
-            <li onClick={(event) => {this.props.animaMarker(event.target.innerHTML)}} className='listElement' id='list' key={item.title}>
+            <li tabIndex={indx++} role='itemOfListPlaces' onClick={(event) => {this.props.animaMarker(event.target.innerHTML)}} className='listElement' id='list' key={item.title}>
               {item.title}
             </li>
           ))}
-          {this.props.empty}
+          <div role='MessageNoResaltsOfSearch' label='Sorry, no results, try again!'>
+            {this.props.empty}
+          </div>
         </ul>
       </div>
     )

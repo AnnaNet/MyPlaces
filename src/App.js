@@ -8,6 +8,9 @@ let foursquare = require('react-foursquare') ({
   clientSecret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
 });
 
+let indxCafe = 21;
+let indxMetro = 26;
+
 class App extends React.Component {
 
   state = {
@@ -43,7 +46,6 @@ class App extends React.Component {
        title: 'Pulkovo Airport'},
       {position: {lat: 59.9500063, lng: 30.316666},
        title: 'Peter and Paul Fortress'},
-
     ],
   }
 
@@ -79,7 +81,6 @@ class App extends React.Component {
         if (item.title === value) {
         foursquare.venues.getVenues(item)
           .then ((res) => {
-            //console.log (res);
             this.setState({
               items: res.response.venues
             });
@@ -90,7 +91,6 @@ class App extends React.Component {
         if (item.title === value) {
         foursquare.venues.getVenues(item)
           .then ((res) => {
-            //console.log (res);
             this.setState({
               items2: res.response.venues
             });
@@ -210,22 +210,26 @@ class App extends React.Component {
       <div className="App">
         <div className='container'>
 
-          <header className="App-header box">
-            <h1 className="App-title">WELCOME to MY PLACES!</h1>
+          <header className="App-header box" role='Header'>
+            <h1 className="App-title" tabIndex='1'>WELCOME to MY PLACES!</h1>
           </header>
           <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}
             isEmpty={this.isEmpty} empty={this.state.empty} clearFS={this.clearFS}/>
           <div className="map" id='map'/>
 
-          {this.state.cafe}
-          {this.state.items.map((item) => {
-            return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
-          })}
+          <div className='box info' role='informationOfNearestCafes' tabIndex='20'>
+            {this.state.cafe}
+            {this.state.items.map((item) => {
+              return (<div className='metro' tabIndex={indxCafe++} key={item.id}>{item.name}, {item.location.address}</div>)
+            })}
+          </div>
 
-          {this.state.metro}
-          {this.state.items2.map((item) => {
-            return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
-          })}
+          <div className='box info' role='informationOfNearestMetroStation' tabIndex='25'>
+            {this.state.metro}
+            {this.state.items2.map((item) => {
+              return (<div className='metro' tabIndex={indxMetro++} key={item.id}>{item.name}, {item.location.address}</div>)
+            })}
+          </div>
 
         </div>
       </div>
