@@ -151,9 +151,12 @@ class App extends React.Component {
   }
 
   isEmpty = (res) => {
-    if (res === false) {
+    let i = 0;
+    res.forEach((elem) => {
+      i++});
+    if (i === 0) {
       this.setState ({
-        empty: 'No results of your search, try again!'
+        empty: 'Sorry, no results, try again!'
       });
     } else {
         this.setState ({
@@ -184,7 +187,7 @@ class App extends React.Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker} isEmpty={this.isEmpty}/>
+          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker} isEmpty={this.isEmpty} empty={this.state.empty}/>
           <div className="map" id='map'/>
           {this.state.items.map((item) => {
             return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)

@@ -25,11 +25,14 @@ class Search extends Component {
     this.setState({
       filter: newFilter
     });
+
     this.setState({
       results: this.props.markers.filter(createFilter(this.state.filter, key))
     })
 
     this.props.newList(this.state.results);
+
+    this.props.isEmpty(this.state.results);
   }
 
   render() {
@@ -48,6 +51,7 @@ class Search extends Component {
               {item.title}
             </li>
           ))}
+          {this.props.empty}
         </ul>
       </div>
     )
