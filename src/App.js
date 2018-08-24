@@ -55,12 +55,14 @@ class App extends React.Component {
     ],
   }
 
+//TODO: set seenMarkers
   setMarkers = (exMarks) => {
     this.setState ({
       seenMarkers: exMarks,
     });
   }
 
+//TODO: set parameters for fourSquare
   params = (markers) => {
     markers.map ((item) => {
       this.setState ((state) => {
@@ -82,35 +84,35 @@ class App extends React.Component {
     })
   }
 
-    FS = (value, paramsFS, paramsFS2) => {
-      paramsFS.map((item) => {
-        if (item.title === value) {
+//TODO: query from fourSquare
+  FS = (value, paramsFS, paramsFS2) => {
+    paramsFS.map((item) => {
+      if (item.title === value) {
         foursquare.venues.getVenues(item)
           .then ((res) => {
             this.setState({
               items: res.response.venues
             });
           }) .catch (console.log ('ErrorFS'))
-        }
-      },
+      }
+    }),
       paramsFS2.map((item) => {
         if (item.title === value) {
-        foursquare.venues.getVenues(item)
-          .then ((res) => {
-            this.setState({
-              items2: res.response.venues
-            });
-        }) .catch (console.log ('ErrorFS2'))
+          foursquare.venues.getVenues(item)
+            .then ((res) => {
+              this.setState({
+                items2: res.response.venues
+              });
+            }) .catch (console.log ('ErrorFS2'))
         }
       }),
       this.setState ({
         cafe: 'Nearest Cafes:',
         metro: 'Nearest Metro-station',
       })
-
-    )
   }
 
+//TODO: binding Google map, doing markers and creating infoWindows
   bindMap = (markers) => {
     let exMarks = [];
 
@@ -153,9 +155,11 @@ class App extends React.Component {
       this.setMarkers (exMarks);
     }).catch(error => {
       console.log ('Can not load Google map');
+
     });
   }
 
+//TODO: initial get results,params and bind Google map
   componentDidMount() {
     this.setState ({
       results: this.state.markers,
@@ -165,6 +169,7 @@ class App extends React.Component {
 
   }
 
+//TODO: search places from list places
   search = (newFilter) => {
     this.setState({
       filter: newFilter
@@ -177,6 +182,7 @@ class App extends React.Component {
     this.clearFS();
   }
 
+//TODO: animate marker onClick and run method FS
   animaMarker = (value) => {
     this.state.seenMarkers.map((item) => {
       if (value === item.title) {
@@ -189,6 +195,7 @@ class App extends React.Component {
     });
   }
 
+//TODO: set message of error to v.empty
   isEmpty = (res) => {
     let i = 0;
     res.forEach((elem) => {
@@ -204,6 +211,7 @@ class App extends React.Component {
     };
   }
 
+//TODO: set new list of places
   newList = (list) => {
     this.state.seenMarkers.map((item) => {
       item.setMap(null);
@@ -218,6 +226,7 @@ class App extends React.Component {
     })
   }
 
+//TODO: clear results of response (fourSquare)
   clearFS = () => {
     this.setState ({
       items: [],
