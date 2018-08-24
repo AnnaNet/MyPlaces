@@ -20,7 +20,7 @@ body {
 /*TODO: settings for screen less 550px at width*/
 @media screen and (max-width: 549px) {
   .list {
-   column-count: 2;
+  float: left;
   }
 }
 

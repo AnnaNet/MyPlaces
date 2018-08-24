@@ -33,6 +33,8 @@ class Search extends Component {
     this.props.newList(this.state.results);
 
     this.props.isEmpty(this.state.results);
+
+    this.props.clearFS();
   }
 
   render() {

@@ -19,6 +19,8 @@ class App extends React.Component {
     paramsFS2: [],
     items: [],
     items2: [],
+    cafe: '',
+    metro: '',
 
     markers: [
       {position: {lat: 59.9276493, lng: 30.2458688},
@@ -61,6 +63,7 @@ class App extends React.Component {
           'query': 'metro',
           'limit': 2,
         });
+
       })
     })
   }
@@ -87,8 +90,13 @@ class App extends React.Component {
             });
         })
         }
+      }),
+      this.setState ({
+        cafe: 'Nearest Cafes:',
+        metro: 'Nearest Metro-station',
       })
-)
+
+    )
   }
 
   bindMap = (markers) => {
@@ -131,7 +139,7 @@ class App extends React.Component {
         });
       this.setMarkers (exMarks);
     }).catch(error => {
-      console.error(`Can't load map: ${error}`);
+      console.log ('Can not load Google map');
     });
   }
 
@@ -143,8 +151,10 @@ class App extends React.Component {
   animaMarker = (value) => {
     this.state.seenMarkers.map((item) => {
       if (value === item.title) {
+
         item.setAnimation(window.google.maps.Animation.BOUNCE);
-        setTimeout(() => {item.setAnimation(null);}, 2000);
+        setTimeout(() => {item.setAnimation(null);}, 2500);
+
         this.FS(value, this.state.paramsFS, this.state.paramsFS2);
       };
     });
@@ -179,6 +189,15 @@ class App extends React.Component {
     })
   }
 
+  clearFS = () => {
+    this.setState ({
+      items: [],
+      items2: [],
+      cafe: '',
+      metro: '',
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -187,11 +206,16 @@ class App extends React.Component {
           <header className="App-header box">
             <h1 className="App-title">WELCOME to MY PLACES!</h1>
           </header>
-          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker} isEmpty={this.isEmpty} empty={this.state.empty}/>
+          <Search markers={this.state.markers} newList={this.newList} animaMarker={this.animaMarker}
+            isEmpty={this.isEmpty} empty={this.state.empty} clearFS={this.clearFS}/>
           <div className="map" id='map'/>
+
+          {this.state.cafe}
           {this.state.items.map((item) => {
             return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
           })}
+
+          {this.state.metro}
           {this.state.items2.map((item) => {
             return (<div className='metro' key={item.id}>{item.name}, {item.location.address}</div>)
           })}
