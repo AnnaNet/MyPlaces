@@ -3,11 +3,12 @@ import './App.css';
 import './responsive.css';
 import Search from './Search';
 import SearchInput, {createFilter} from 'react-search-input'
+import axios from 'axios';
 
-let foursquare = require('react-foursquare') ({
-  clientID: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
-  clientSecret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
-});
+/*let foursquare = require('react-foursquare') ({*/
+  //clientID: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
+  //clientSecret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
+//});
 
 let indxCafe = 21;
 let indxMetro = 26;
@@ -17,6 +18,10 @@ const key = 'title';
 class App extends React.Component {
 
   state = {
+    hasErr: false,
+    errorFS: '',
+    errorGgl: '',
+
     results: [],
     filter: '',
 
@@ -55,6 +60,12 @@ class App extends React.Component {
     ],
   }
 
+  componentDidCatch(error, info) {
+    this.setState ({
+      hasErr: true,
+    });
+  }
+
 //TODO: set seenMarkers
   setMarkers = (exMarks) => {
     this.setState ({
@@ -67,17 +78,23 @@ class App extends React.Component {
     markers.map ((item) => {
       this.setState ((state) => {
         paramsFS: this.state.paramsFS.push({
-          'title': item.title,
-          'll': `${item.position.lat},${item.position.lng}`,
-          'query': 'cafe',
-          'limit': 3,
+          client_id: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
+          client_secret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
+          title: item.title,
+          ll: `${item.position.lat},${item.position.lng}`,
+          query: 'cafe',
+          limit: 3,
+          v: '20180323',
         });
 
         paramsFS2: this.state.paramsFS2.push({
-          'title': item.title,
-          'll': `${item.position.lat},${item.position.lng}`,
-          'query': 'metro',
-          'limit': 2,
+          client_id: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
+          client_secret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
+          title: item.title,
+          ll: `${item.position.lat},${item.position.lng}`,
+          query: 'metro',
+          limit: 2,
+          v: '20180323',
         });
 
       })
@@ -86,29 +103,64 @@ class App extends React.Component {
 
 //TODO: query from fourSquare
   FS = (value, paramsFS, paramsFS2) => {
+
     paramsFS.map((item) => {
       if (item.title === value) {
-        foursquare.venues.getVenues(item)
-          .then ((res) => {
-            this.setState({
-              items: res.response.venues
-            });
-          }) .catch (console.log ('ErrorFS'))
+       axios.get('https://api.foursquare.com/v2/venues/search?' + new URLSearchParams(item))
+         .then ((res) => {
+             this.setState({
+               items: res.data.response.venues,
+               errorFS: '',
+             });
+         })
+         .catch ((err) => {
+           this.setState ({
+             errorFS: 'Sorry, can not link to FourSquare, try later...',
+             items: [],
+           })
+         })
       }
-    }),
-      paramsFS2.map((item) => {
-        if (item.title === value) {
-          foursquare.venues.getVenues(item)
-            .then ((res) => {
-              this.setState({
-                items2: res.response.venues
-              });
-            }) .catch (console.log ('ErrorFS2'))
-        }
-      }),
+    })
+
+    paramsFS2.map((item) => {
+      if (item.title === value) {
+       axios.get('https://api.foursquare.com/v2/venues/search?' + new URLSearchParams(item))
+         .then ((res) => {
+             this.setState({
+               items2: res.data.response.venues,
+               errorFS: '',
+             });
+         })
+         .catch ((err) => {
+             this.setState ({
+             errorFS: 'Sorry, can not link to FourSquare, try later...',
+               items2: [],
+           })
+         })
+      }
+    })
+
+        //foursquare.venues.getVenues(item)
+          //.then ((res) => {
+            //this.setState({
+              //items: res.response.venues
+            //})
+          /*})} catch(e) {console.log('try-catch')};*/
+
+/*      paramsFS2.map((item) => {*/
+        //if (item.title === value) {
+          //foursquare.venues.getVenues(item)
+            //.then ((res) => {
+              //this.setState({
+                //items2: res.response.venues
+              //});
+            //}) .catch (console.log ('ErrorFS2'))
+        //}
+      /*}),*/
+
       this.setState ({
         cafe: 'Nearest Cafes:',
-        metro: 'Nearest Metro-station',
+        metro: 'Nearest Metro-station:',
       })
   }
 
@@ -126,6 +178,9 @@ class App extends React.Component {
         document.head.appendChild(getKey);
 
     }).then(() => {
+        this.setState ({
+          errorGgl: '',
+        });
         this.map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: 59.8809792, lng: 30.3191973},
           zoom: 11,
@@ -155,6 +210,9 @@ class App extends React.Component {
       this.setMarkers (exMarks);
     }).catch(error => {
       console.log ('Can not load Google map');
+      this.setState ({
+        errorGgl: 'Unfortunatly, internet disconnected...',
+      })
 
     });
   }
@@ -264,6 +322,10 @@ class App extends React.Component {
             })}
           </div>
 
+          <div className='errors'>
+            {this.state.errorFS}
+            {this.state.errorGgl}
+          </div>
         </div>
       </div>
     );
