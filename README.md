@@ -28,9 +28,9 @@ You can see how it is work.
 
 #### ServiceWorker working only in product mode
 For doing product mode you need:
-in terminal run "npm run build"
-in terminal run "yarn global add serve"
-in terminal run "serve -s build"
+###### in terminal run "npm run build"
+###### in terminal run "yarn global add serve"
+###### in terminal run "serve -s build"
 
 
 
