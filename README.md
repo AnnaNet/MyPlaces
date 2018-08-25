@@ -34,6 +34,7 @@ in terminal run "serve -s build"
 
 
 
+#Below common information about projects created on "create-react-app"
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
