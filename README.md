@@ -10,7 +10,7 @@ This is learning project of Udacity.
 ## Instructions
 
 To get started:
-//#### to do clone of project
+#### to do clone of project
 #### in terminal run "npm install"
 #### in terminal npm install axios --save
 #### in terminal npm install react-search-input --save
@@ -25,6 +25,8 @@ You can see how it is work.
   It is all! Pleasant usinging!
 
 #### In this project used API FourSquare
+#### ServiceWorker working only in product mode
+
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

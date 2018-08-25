@@ -201,7 +201,6 @@ class App extends React.Component {
     });
     this.bindMap(this.state.markers);
     this.params(this.state.markers);
-
   }
 
 //TODO: search places from list places
