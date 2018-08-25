@@ -5,10 +5,6 @@ import Search from './Search';
 import SearchInput, {createFilter} from 'react-search-input'
 import axios from 'axios';
 
-/*let foursquare = require('react-foursquare') ({*/
-  //clientID: 'KD1PWPYWK0TJ3EJI2FAXLV1TD4RPVOK2T04A1NHLPQDKHMBS',
-  //clientSecret: '5V0AMDA4VWTOWX4BK52F13DD3SVSZ1FE50HZX31MZFYPTII5',
-//});
 
 let indxCafe = 21;
 let indxMetro = 26;
@@ -140,24 +136,6 @@ class App extends React.Component {
       }
     })
 
-        //foursquare.venues.getVenues(item)
-          //.then ((res) => {
-            //this.setState({
-              //items: res.response.venues
-            //})
-          /*})} catch(e) {console.log('try-catch')};*/
-
-/*      paramsFS2.map((item) => {*/
-        //if (item.title === value) {
-          //foursquare.venues.getVenues(item)
-            //.then ((res) => {
-              //this.setState({
-                //items2: res.response.venues
-              //});
-            //}) .catch (console.log ('ErrorFS2'))
-        //}
-      /*}),*/
-
       this.setState ({
         cafe: 'Nearest Cafes:',
         metro: 'Nearest Metro-station:',
@@ -213,7 +191,6 @@ class App extends React.Component {
       this.setState ({
         errorGgl: 'Unfortunatly, internet disconnected...',
       })
-
     });
   }
 

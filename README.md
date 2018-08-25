@@ -12,9 +12,9 @@ This is learning project of Udacity.
 To get started:
 //#### to do clone of project
 #### in terminal run "npm install"
-#### npm install -i react-foursquare
-#### npm install react-search-input --save
-//#### in terminal run "npm start"
+#### in terminal npm install axios --save
+#### in terminal npm install react-search-input --save
+#### in terminal run "npm start"
 
 You can see how it is work.
 
